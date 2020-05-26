@@ -12,21 +12,32 @@ CKnave = Symbol("C is a Knave")
 # Puzzle 0
 # A says "I am both a knight and a knave."
 knowledge0 = And(
-    # TODO
+    Implication(AKnight, And(AKnight, AKnave)),
+    Or(AKnight, AKnave)
 )
 
 # Puzzle 1
 # A says "We are both knaves."
 # B says nothing.
 knowledge1 = And(
-    # TODO
+    Implication(AKnight, And(AKnave, BKnave)),
+    Implication(AKnave, BKnight),
+    Or(BKnight, BKnave),
+    Or(AKnave, AKnight)
 )
 
 # Puzzle 2
 # A says "We are the same kind."
 # B says "We are of different kinds."
 knowledge2 = And(
-    # TODO
+    Implication(AKnight, Or(And(AKnight, BKnight), And(AKnave, BKnave))),
+    Implication(BKnight, Or(And(AKnight, BKnave), And(AKnave, BKnight))),
+    Implication(AKnave, BKnight),
+    Implication(BKnave, AKnight),
+    Implication(BKnight, AKnave),
+    Implication(AKnight, BKnave),
+    Or(AKnave, AKnight),
+    Or(BKnave, BKnight)
 )
 
 # Puzzle 3
@@ -35,7 +46,13 @@ knowledge2 = And(
 # B says "C is a knave."
 # C says "A is a knight."
 knowledge3 = And(
-    # TODO
+    Or(BKnight, BKnave),
+    Or(CKnight, CKnave),
+    Or(AKnight, AKnave),
+    Implication(BKnight, CKnave),
+    Implication(CKnight, AKnight),
+    Implication(CKnight, BKnave),
+    Implication(AKnave, CKnave)
 )
 
 
@@ -54,7 +71,7 @@ def main():
         else:
             for symbol in symbols:
                 if model_check(knowledge, symbol):
-                    print(f"    {symbol}")
+                    print("    %s" % symbol)
 
 
 if __name__ == "__main__":
